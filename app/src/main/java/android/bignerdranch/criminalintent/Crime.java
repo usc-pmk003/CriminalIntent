@@ -7,14 +7,17 @@ public class Crime {
 
     private String mTitle;
     private Date mDate;
+    private String mPlace;
+    private String mDetails;
     private boolean mSolved;
     private String mSuspect;
+
+    private UUID mId;
 
     public UUID getId() {
         return mId;
     }
 
-    private UUID mId;
 
     public String getTitle() {
         return mTitle;
@@ -30,6 +33,22 @@ public class Crime {
 
     public void setDate(Date date) {
         mDate = date;
+    }
+
+    public String getPlace() {
+        return mPlace;
+    }
+
+    public void setPlace(String place) {
+        mPlace = place;
+    }
+
+    public String getDetails() {
+        return mDetails;
+    }
+
+    public void setDetails(String details) {
+        mDetails = details;
     }
 
     public boolean isSolved() {

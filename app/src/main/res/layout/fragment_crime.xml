@@ -57,7 +57,31 @@
                 android:id="@+id/crime_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/crime_title_hint" />
+                android:hint="@string/crime_title_hint"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Place"
+                style="?android:listSeparatorTextViewStyle"/>
+
+            <EditText
+                android:id="@+id/crime_place"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Enter the place of the crime."/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Details"
+                style="?android:listSeparatorTextViewStyle"/>
+
+            <EditText
+                android:id="@+id/crime_details"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Enter the details of the crime."/>
 
         </LinearLayout>
 
@@ -67,12 +91,13 @@
         style="?android:listSeparatorTextViewStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/crime_details_label" />
+        android:text="date" />
 
     <Button
         android:id="@+id/crime_date"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:text="date"/>
     
     <CheckBox
         android:id="@+id/crime_solved"

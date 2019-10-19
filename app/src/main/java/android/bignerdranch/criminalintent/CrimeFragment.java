@@ -1,5 +1,6 @@
 package android.bignerdranch.criminalintent;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -7,6 +8,7 @@ import android.content.pm.ResolveInfo;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.ContactsContract;
@@ -14,6 +16,7 @@ import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.text.format.DateFormat;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,9 +30,15 @@ import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.location.LocationListener;
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationServices;
 
 import java.io.File;
 import java.util.Date;
@@ -54,27 +63,23 @@ public class CrimeFragment extends Fragment {
     private EditText mPlaceField;
     private EditText mDetailsField;
     private Button mDateButton;
-    private CheckBox mSolvedCheckBox;
     private Button mSuspectButton;
     private Button mReportButton;
     private ImageButton mPhotoButton;
     private ImageView mPhotoView;
 
-    public static CrimeFragment newInstance(UUID crimeId) {
-        Bundle args = new Bundle();
-        args.putSerializable(ARG_CRIME_ID, crimeId);
+    private GoogleApiClient mClient;
 
-        CrimeFragment fragment = new CrimeFragment();
-        fragment.setArguments(args);
-        return fragment;
+    @Override
+    public void onStart() {
+        super.onStart();
+        mClient.connect();
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        UUID crimeId = (UUID) getArguments().getSerializable(ARG_CRIME_ID);
-        mCrime = CrimeLab.get(getActivity()).getCrime(crimeId);
-        mPhotoFile = CrimeLab.get(getActivity()).getPhotoFile(mCrime);
+    public void onStop() {
+        super.onStop();
+        mClient.disconnect();
     }
 
     @Override
@@ -128,7 +133,7 @@ public class CrimeFragment extends Fragment {
             }
         });
 
-        mDetailsField= (EditText) v.findViewById(R.id.crime_details);
+        mDetailsField = (EditText) v.findViewById(R.id.crime_details);
         mDetailsField.setText(mCrime.getDetails());
         mDetailsField.addTextChangedListener(new TextWatcher() {
             @Override
@@ -192,16 +197,6 @@ public class CrimeFragment extends Fragment {
             }
         });
 
-        mSolvedCheckBox = (CheckBox) v.findViewById(R.id.crime_solved);
-        mSolvedCheckBox.setChecked(mCrime.isSolved());
-        mSolvedCheckBox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                mCrime.setSolved(isChecked);
-            }
-        });
-
         mPhotoButton = (ImageButton) v.findViewById(R.id.crime_camera);
         final Intent captureImage = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 
@@ -243,10 +238,11 @@ public class CrimeFragment extends Fragment {
             mCrime.setDate(date);
 
             updateDate();
+
         } else if (requestCode == REQUEST_CONTACT && data != null) {
             Uri contactUri = data.getData();
             // Specify which fields you want your query to return values for
-            String [] queryFields = new String[] {
+            String[] queryFields = new String[]{
                     ContactsContract.Contacts.DISPLAY_NAME
             };
             // Perform your query - the contactUri is like a "where" clause here
@@ -276,29 +272,62 @@ public class CrimeFragment extends Fragment {
         }
     }
 
+    public static CrimeFragment newInstance(UUID crimeId) {
+        Bundle args = new Bundle();
+        args.putSerializable(ARG_CRIME_ID, crimeId);
+
+        CrimeFragment fragment = new CrimeFragment();
+        fragment.setArguments(args);
+        return fragment;
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        UUID crimeId = (UUID) getArguments().getSerializable(ARG_CRIME_ID);
+        mCrime = CrimeLab.get(getActivity()).getCrime(crimeId);
+        mPhotoFile = CrimeLab.get(getActivity()).getPhotoFile(mCrime);
+
+        mClient = new GoogleApiClient.Builder(getActivity()).addApi(LocationServices.API).addConnectionCallbacks(new GoogleApiClient.ConnectionCallbacks() {
+            @Override
+            public void onConnected(@Nullable Bundle bundle) {
+                LocationRequest request = LocationRequest.create();
+                request.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+                request.setNumUpdates(1);
+                request.setInterval(0);
+
+                if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION)
+                        != PackageManager.PERMISSION_GRANTED) {
+                    return;
+                }
+
+                LocationServices.FusedLocationApi.requestLocationUpdates(mClient, request, new LocationListener() {
+                    @Override
+                    public void onLocationChanged(Location location) {
+                        mCrime.setLatitude(location.getLatitude());
+                        mCrime.setLongitude(location.getLongitude());
+                        Log.i("LOCATION", "Got a fix: " + location);
+                    }
+                });
+            }
+
+            @Override
+            public void onConnectionSuspended(int i) {
+            }
+        })
+        .build();
+    }
     private void updateDate() {
         mDateButton.setText(mCrime.getDate().toString());
     }
 
     private String getCrimeReport() {
-        String solvedString = null;
-        if (mCrime.isSolved()) {
-            solvedString = getString(R.string.crime_report_solved);
-        } else {
-            solvedString = getString((R.string.crime_report_unsolved));
-        }
+        String introduction = "Hello";
 
         String dateFormat = "EEE, MMM dd";
         String dateString = DateFormat.format(dateFormat, mCrime.getDate()).toString();
 
-        String suspect = mCrime.getSuspect();
-        if (suspect == null) {
-            suspect = getString(R.string.crime_report_no_suspect);
-        } else {
-            suspect = getString(R.string.crime_report_suspect, suspect);
-        }
-
-        String report = getString(R.string.crime_report, mCrime.getTitle(), dateString, solvedString, suspect);
+        String report = getString(R.string.crime_report, introduction, mCrime.getPlace(), dateString, mCrime.getDetails());
 
         return report;
     }
@@ -312,3 +341,5 @@ public class CrimeFragment extends Fragment {
         }
     }
 }
+
+

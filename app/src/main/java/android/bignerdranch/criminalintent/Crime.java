@@ -9,8 +9,10 @@ public class Crime {
     private Date mDate;
     private String mPlace;
     private String mDetails;
-    private boolean mSolved;
     private String mSuspect;
+
+    private double mLatitude;
+    private double mLongitude;
 
     private UUID mId;
 
@@ -51,14 +53,6 @@ public class Crime {
         mDetails = details;
     }
 
-    public boolean isSolved() {
-        return mSolved;
-    }
-
-    public void setSolved(boolean solved) {
-        mSolved = solved;
-    }
-
     public String getSuspect() {
         return mSuspect;
     }
@@ -78,5 +72,13 @@ public class Crime {
     public Crime(UUID id) {
         mId = id;
         mDate = new Date();
+    }
+
+    public void setLatitude(double latitude) {
+        latitude = mLatitude;
+    }
+
+    public void setLongitude(double longitude) {
+        longitude = mLongitude;
     }
 }

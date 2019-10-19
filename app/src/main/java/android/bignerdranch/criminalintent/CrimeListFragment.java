@@ -140,7 +140,6 @@ public class CrimeListFragment extends Fragment {
 
     private class CrimeHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-        private ImageView mSolvedImageView;
         private Crime mCrime;
 
         public CrimeHolder(LayoutInflater inflater, ViewGroup parent) {
@@ -152,7 +151,6 @@ public class CrimeListFragment extends Fragment {
             mDateTextView = (TextView) itemView.findViewById(R.id.crime_date);
             mPlaceTextView = (TextView) itemView.findViewById(R.id.crime_place);
             //mDetailsTextView = (TextView) itemView.findViewById(R.id.crime_details);
-            mSolvedImageView = (ImageView) itemView.findViewById(R.id.crime_solved);
         }
 
         public void bind(Crime crime) {
@@ -161,7 +159,6 @@ public class CrimeListFragment extends Fragment {
             mDateTextView.setText(mCrime.getDate().toString());
             mPlaceTextView.setText(mCrime.getPlace());
             //mDetailsTextView.setText(mCrime.getDetails());
-            mSolvedImageView.setVisibility(crime.isSolved() ? View.VISIBLE : View.GONE);
         }
 
         @Override

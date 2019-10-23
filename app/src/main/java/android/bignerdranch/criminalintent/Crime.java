@@ -81,4 +81,12 @@ public class Crime {
     public void setLongitude(double longitude) {
         longitude = mLongitude;
     }
+
+    public double getLatitude() {
+        return mLatitude;
+    }
+
+    public double getLongitude() {
+        return mLongitude;
+    }
 }

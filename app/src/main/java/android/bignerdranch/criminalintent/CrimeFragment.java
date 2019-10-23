@@ -2,6 +2,7 @@ package android.bignerdranch.criminalintent;
 
 import android.Manifest;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
@@ -49,6 +50,8 @@ import java.util.UUID;
 import static android.widget.CompoundButton.*;
 
 public class CrimeFragment extends Fragment {
+    public static final String EXTRA_LATITUDE = "android.bignerdranch.criminalintent.latitude";
+    public static final String EXTRA_LONGITUDE = "android.bignerdranch.criminalintent.longitude";
 
     private static final String ARG_CRIME_ID = "crime_id";
     private static final String DIALOG_DATE = "DialogDate";
@@ -62,6 +65,7 @@ public class CrimeFragment extends Fragment {
     private EditText mTitleField;
     private EditText mPlaceField;
     private EditText mDetailsField;
+    private Button mLocationButton; // make button open map
     private Button mDateButton;
     private Button mSuspectButton;
     private Button mReportButton;
@@ -149,6 +153,14 @@ public class CrimeFragment extends Fragment {
             @Override
             public void afterTextChanged(Editable s) {
                 // also blank
+            }
+        });
+
+        mLocationButton = (Button) v.findViewById(R.id.location_button);
+        mLocationButton.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+//
             }
         });
 

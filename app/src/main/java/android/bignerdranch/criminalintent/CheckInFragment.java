@@ -157,7 +157,7 @@ public class CheckInFragment extends Fragment {
             }
         });
 
-        mReportButton = (Button) v.findViewById(R.id.checkin_report);
+        mReportButton = (Button) v.findViewById(R.id.share_button);
         mReportButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Intent i = new Intent(Intent.ACTION_SEND);
@@ -169,21 +169,12 @@ public class CheckInFragment extends Fragment {
             }
         });
 
-        final Intent pickContact = new Intent(Intent.ACTION_PICK, ContactsContract.Contacts.CONTENT_URI);
-        mSuspectButton.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                startActivityForResult(pickContact, REQUEST_CONTACT);
-            }
-        });
 
         if (mCheckIn.getSuspect() != null) {
             mSuspectButton.setText(mCheckIn.getSuspect());
         }
 
         PackageManager packageManager = getActivity().getPackageManager();
-        if (packageManager.resolveActivity(pickContact, PackageManager.MATCH_DEFAULT_ONLY) == null) {
-            mSuspectButton.setEnabled(false);
-        }
 
         mDateButton = (Button) v.findViewById(R.id.checkin_date);
 

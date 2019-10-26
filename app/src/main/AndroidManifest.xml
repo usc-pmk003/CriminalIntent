@@ -39,7 +39,7 @@
         <activity
             android:name=".MapsActivity"
             android:label="@string/title_activity_maps"></activity>
-        <activity android:name=".CrimeListActivity">
+        <activity android:name=".CheckInListActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -47,8 +47,8 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".CrimeActivity"
-            android:parentActivityName=".CrimeListActivity"></activity>
+            android:name=".CheckInActivity"
+            android:parentActivityName=".CheckInListActivity"></activity>
 
         <provider
             android:name="androidx.core.content.FileProvider"

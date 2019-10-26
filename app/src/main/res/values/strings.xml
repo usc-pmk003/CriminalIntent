@@ -1,20 +1,18 @@
 <resources>
-    <string name="app_name">CriminalIntent</string>
-    <string name="crime_title_hint">Enter a title for the crime.</string>
-    <string name="crime_title_label">Title</string>
-    <string name="crime_details_label">Details</string>
-    <string name="crime_solved_label">Solved</string>
-    <string name="date_picker_title">Date of crime:</string>
-    <string name="new_crime">New Crime</string>
+    <string name="app_name">My CheckIns</string>
+    <string name="checkin_title_hint">Enter a title for the CheckIn.</string>
+    <string name="checkin_title_label">Title</string>
+    <string name="checkin_details_label">Details</string>
+    <string name="date_picker_title">Date of CheckIn:</string>
+    <string name="new_checkin">New CheckIn</string>
     <string name="show_subtitle">Show Subtitle</string>
     <string name="hide_subtitle">Hide Subtitle</string>
-    <string name="subtitle_format">%1$d crimes</string>
-    <string name="crime_suspect_text">Choose Suspect</string>
+    <string name="subtitle_format">%1$d CheckIns</string>
     <string name="share_button_text">Share</string>
     <string name="location_button_text">Location</string>
-    <string name="crime_report">%1$s! I was at %2$s on %3$s, and %4$s</string>
-    <string name="crime_report_subject">CriminalIntent Crime Report</string>
-    <string name="send_report">Send crime report via</string>
+    <string name="checkin_report">%1$s! I was at %2$s on %3$s, and %4$s</string>
+    <string name="checkin_report_subject">CheckIn Report</string>
+    <string name="send_report">Send CheckIn report via</string>
     <string name="title_activity_maps">Map</string>
     <string name="location_label_text">Latitude: %1$f Longitude: %2$f</string>
 </resources>

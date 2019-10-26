@@ -3,7 +3,7 @@ package android.bignerdranch.criminalintent;
 import java.util.Date;
 import java.util.UUID;
 
-public class Crime {
+public class CheckIn {
 
     private String mTitle;
     private Date mDate;
@@ -65,11 +65,11 @@ public class Crime {
         return "IMG_" + getId().toString() + ".jpg";
     }
 
-    public Crime() {
+    public CheckIn() {
         this(UUID.randomUUID());
     }
 
-    public Crime(UUID id) {
+    public CheckIn(UUID id) {
         mId = id;
         mDate = new Date();
     }

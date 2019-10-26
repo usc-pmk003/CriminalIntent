@@ -1,8 +1,8 @@
 package android.bignerdranch.criminalintent.database;
 
-public class CrimeDbSchema {
-    public static final class CrimeTable {
-        public static final String NAME = "crimes";
+public class CheckInDbSchema {
+    public static final class CheckInTable {
+        public static final String NAME = "checkins";
 
         public static final class Cols {
             public static final String UUID = "uuid";

@@ -110,6 +110,8 @@ public class CrimeLab {
         values.put(CrimeTable.Cols.SUSPECT, crime.getSuspect());
         values.put(CrimeTable.Cols.PLACE, crime.getPlace());
         values.put(CrimeTable.Cols.DETAILS, crime.getDetails());
+        values.put(CrimeTable.Cols.LATITUDE, crime.getLatitude());
+        values.put(CrimeTable.Cols.LONGITUDE, crime.getLongitude());
 
         return values;
     }

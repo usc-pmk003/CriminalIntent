@@ -2,6 +2,8 @@ package android.bignerdranch.criminalintent;
 
 import androidx.fragment.app.FragmentActivity;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 
 import com.google.android.gms.maps.CameraUpdate;
@@ -14,21 +16,37 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
-    private GoogleMap mMap;
+    private static final String EXTRA_LATITUDE = "android.bignerdranch.criminalintent.latitude";
+    private static final String EXTRA_LONGITUDE = "android.bignerdranch.criminalintent.longitude";
+
     private double mLatitude;
     private double mLongitude;
+
+    private GoogleMap mMap;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
+
+        Bundle extras = getIntent().getExtras();
+        if (extras != null) {
+            mLatitude = extras.getDouble(EXTRA_LATITUDE);
+            mLongitude = extras.getDouble(EXTRA_LONGITUDE);
+        }
+
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
     }
 
-    // Create New Intent method
+    public static Intent newIntent(Context packageContext, double latitude, double longitude) {
+        Intent intent = new Intent(packageContext, MapsActivity.class);
+        intent.putExtra(EXTRA_LATITUDE, latitude);
+        intent.putExtra(EXTRA_LONGITUDE, longitude);
+        return intent;
+    }
 
 
     /**
@@ -44,6 +62,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
+        updateUI();
+    }
+
+    private void updateUI() {
         LatLng position = new LatLng(mLatitude, mLongitude);
 
         MarkerOptions marker = new MarkerOptions().position(position).title("CheckIn Location");

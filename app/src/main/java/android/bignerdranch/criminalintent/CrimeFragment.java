@@ -28,6 +28,7 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -37,8 +38,10 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
 
 import java.io.File;
@@ -50,9 +53,6 @@ import java.util.UUID;
 import static android.widget.CompoundButton.*;
 
 public class CrimeFragment extends Fragment {
-    public static final String EXTRA_LATITUDE = "android.bignerdranch.criminalintent.latitude";
-    public static final String EXTRA_LONGITUDE = "android.bignerdranch.criminalintent.longitude";
-
     private static final String ARG_CRIME_ID = "crime_id";
     private static final String DIALOG_DATE = "DialogDate";
 
@@ -65,7 +65,8 @@ public class CrimeFragment extends Fragment {
     private EditText mTitleField;
     private EditText mPlaceField;
     private EditText mDetailsField;
-    private Button mLocationButton; // make button open map
+    private TextView mLocationLabel;
+    private Button mLocationButton;
     private Button mDateButton;
     private Button mSuspectButton;
     private Button mReportButton;
@@ -156,11 +157,13 @@ public class CrimeFragment extends Fragment {
             }
         });
 
+        mLocationLabel = (TextView) v.findViewById(R.id.location_label);
         mLocationButton = (Button) v.findViewById(R.id.location_button);
         mLocationButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-//
+                Intent intent = MapsActivity.newIntent(getContext(), mCrime.getLatitude(), mCrime.getLongitude());
+                startActivity(intent);
             }
         });
 
@@ -313,15 +316,16 @@ public class CrimeFragment extends Fragment {
                     return;
                 }
 
-                LocationServices.FusedLocationApi.requestLocationUpdates(mClient, request, new LocationListener() {
-                    @Override
-                    public void onLocationChanged(Location location) {
-                        mCrime.setLatitude(location.getLatitude());
-                        mCrime.setLongitude(location.getLongitude());
-                        Log.i("LOCATION", "Got a fix: " + location);
-                    }
-                });
-            }
+                LocationServices.getFusedLocationProviderClient(getActivity())
+                        .requestLocationUpdates(request, new LocationCallback() {
+                            @Override
+                            public void onLocationResult(LocationResult result) {
+                                super.onLocationResult(result);
+                                Location location = result.getLastLocation();
+                                updateLocation(location);
+                            }
+                        }, null);
+                }
 
             @Override
             public void onConnectionSuspended(int i) {
@@ -329,8 +333,17 @@ public class CrimeFragment extends Fragment {
         })
         .build();
     }
+
     private void updateDate() {
         mDateButton.setText(mCrime.getDate().toString());
+    }
+
+    private void updateLocation(Location location) {
+        mCrime.setLatitude(location.getLatitude());
+        mCrime.setLongitude(location.getLongitude());
+
+        String locationUpdate = getString(R.string.location_label_text, mCrime.getLatitude(), mCrime.getLongitude());
+        mLocationLabel.setText(locationUpdate);
     }
 
     private String getCrimeReport() {

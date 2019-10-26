@@ -74,19 +74,19 @@ public class Crime {
         mDate = new Date();
     }
 
-    public void setLatitude(double latitude) {
-        latitude = mLatitude;
-    }
-
-    public void setLongitude(double longitude) {
-        longitude = mLongitude;
-    }
-
     public double getLatitude() {
         return mLatitude;
     }
 
     public double getLongitude() {
         return mLongitude;
+    }
+
+    public void setLatitude(double latitude) {
+        mLatitude = latitude;
+    }
+
+    public void setLongitude(double longitude) {
+        mLongitude = longitude;
     }
 }

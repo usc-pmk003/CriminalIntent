@@ -1,6 +1,7 @@
 package android.bignerdranch.criminalintent;
 
 import android.content.Intent;
+import android.location.Location;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;

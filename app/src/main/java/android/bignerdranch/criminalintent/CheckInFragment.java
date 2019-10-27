@@ -2,6 +2,7 @@ package android.bignerdranch.criminalintent;
 
 import android.Manifest;
 import android.app.Activity;
+import android.bignerdranch.criminalintent.database.CheckInBaseHelper;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
@@ -60,9 +61,11 @@ public class CheckInFragment extends Fragment {
     private Button mDateButton;
     private Button mSuspectButton;
     private Button mReportButton;
+    private Button mDeleteButton;
     private ImageButton mPhotoButton;
     private ImageView mPhotoView;
 
+    private CheckInBaseHelper dbHelper;
     private GoogleApiClient mClient;
 
     @Override
@@ -169,7 +172,6 @@ public class CheckInFragment extends Fragment {
             }
         });
 
-
         if (mCheckIn.getSuspect() != null) {
             mSuspectButton.setText(mCheckIn.getSuspect());
         }
@@ -189,6 +191,14 @@ public class CheckInFragment extends Fragment {
                 dialog.setTargetFragment(CheckInFragment.this, REQUEST_DATE);
 
                 dialog.show(manager, DIALOG_DATE);
+            }
+        });
+
+        mDeleteButton = (Button) v.findViewById(R.id.delete_button);
+        mDeleteButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                CheckInLab.get(getActivity()).deleteCheckIn(mCheckIn);
+                getActivity().finish();
             }
         });
 
@@ -221,6 +231,8 @@ public class CheckInFragment extends Fragment {
 
         return v;
     }
+
+
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -279,8 +291,8 @@ public class CheckInFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        UUID crimeId = (UUID) getArguments().getSerializable(ARG_CRIME_ID);
-        mCheckIn = CheckInLab.get(getActivity()).getCrime(crimeId);
+        UUID checkInId = (UUID) getArguments().getSerializable(ARG_CRIME_ID);
+        mCheckIn = CheckInLab.get(getActivity()).getCrime(checkInId);
         mPhotoFile = CheckInLab.get(getActivity()).getPhotoFile(mCheckIn);
 
         mClient = new GoogleApiClient.Builder(getActivity()).addApi(LocationServices.API).addConnectionCallbacks(new GoogleApiClient.ConnectionCallbacks() {

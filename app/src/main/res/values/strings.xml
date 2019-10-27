@@ -15,4 +15,5 @@
     <string name="send_report">Send CheckIn report via</string>
     <string name="title_activity_maps">Map</string>
     <string name="location_label_text">Latitude: %1$f Longitude: %2$f</string>
+    <string name="delete_button_text">Delete</string>
 </resources>

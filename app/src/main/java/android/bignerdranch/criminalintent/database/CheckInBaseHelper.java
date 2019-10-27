@@ -1,8 +1,12 @@
 package android.bignerdranch.criminalintent.database;
 
+import android.bignerdranch.criminalintent.CheckIn;
+import android.bignerdranch.criminalintent.CheckInLab;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+
+import java.util.UUID;
 
 public class CheckInBaseHelper extends SQLiteOpenHelper {
     private static final int VERSION = 1;
@@ -14,7 +18,8 @@ public class CheckInBaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL("create table " + CheckInDbSchema.CheckInTable.NAME + "(" + " _id integer primary key autoincrement, " +
+        db.execSQL("create table " + CheckInDbSchema.CheckInTable.NAME
+                + "(" + " _id integer primary key autoincrement, " +
                 CheckInDbSchema.CheckInTable.Cols.UUID + ", " +
                 CheckInDbSchema.CheckInTable.Cols.TITLE + ", " +
                 CheckInDbSchema.CheckInTable.Cols.DATE + ", " +

@@ -39,6 +39,12 @@ public class CheckInLab {
         mDatabase.insert(CheckInDbSchema.CheckInTable.NAME, null, values);
     }
 
+    public void deleteCheckIn(CheckIn checkIn) {
+        mDatabase.delete(CheckInTable.NAME
+                , CheckInTable.Cols.UUID + " = ?"
+                , new String[] {checkIn.getId().toString()});
+    }
+
     public List<CheckIn>getCrimes() {
         List<CheckIn> checkIns = new ArrayList<>();
 

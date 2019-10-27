@@ -18,14 +18,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
-
 public class CheckInListFragment extends Fragment {
 
     private static final String SAVED_SUBTITLE_VISIBLE = "subtitle";
 
-    private TextView mTitleTextView;
-    private TextView mDateTextView;
-    private TextView mPlaceTextView;
+
     private TextView mDetailsTextView;
 
     private RecyclerView mCrimeRecyclerView;
@@ -81,12 +78,10 @@ public class CheckInListFragment extends Fragment {
         }
     }
 
-
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.new_crime:
+            case R.id.new_checkin:
                 CheckIn checkIn = new CheckIn();
 
                 CheckInLab.get(getActivity()).addCrime(checkIn);
@@ -135,8 +130,11 @@ public class CheckInListFragment extends Fragment {
     }
 
     private class CrimeHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-
         private CheckIn mCheckIn;
+
+        private TextView mTitleTextView;
+        private TextView mDateTextView;
+        private TextView mPlaceTextView;
 
         public CrimeHolder(LayoutInflater inflater, ViewGroup parent) {
             super(inflater.inflate(R.layout.list_item_crime, parent, false));

@@ -1,4 +1,4 @@
-package android.bignerdranch.criminalintent;
+package android.bignerdranch.mycheckins;
 
 import androidx.fragment.app.Fragment;
 
@@ -14,19 +14,19 @@ import java.util.UUID;
 
 public class CheckInActivity extends SingleFragmentActivity {
 
-    private static final String EXTRA_CRIME_ID = "com.bignerdranch.android.criminalintent.crime_id";
+    private static final String EXTRA_CRIME_ID = "com.bignerdranch.android.criminalintent.checkIn_id";
     private static final int REQUEST_ERROR = 0;
 
-    public static Intent newIntent(Context packageContext, UUID crimeId) {
+    public static Intent newIntent(Context packageContext, UUID checkInId) {
         Intent intent = new Intent(packageContext, CheckInActivity.class);
-        intent.putExtra(EXTRA_CRIME_ID, crimeId);
+        intent.putExtra(EXTRA_CRIME_ID, checkInId);
         return intent;
     }
 
     @Override
     protected Fragment createFragment() {
-        UUID crimeId = (UUID) getIntent().getSerializableExtra(EXTRA_CRIME_ID);
-        return CheckInFragment.newInstance(crimeId);
+        UUID checkInId = (UUID) getIntent().getSerializableExtra(EXTRA_CRIME_ID);
+        return CheckInFragment.newInstance(checkInId);
     }
 
     @Override

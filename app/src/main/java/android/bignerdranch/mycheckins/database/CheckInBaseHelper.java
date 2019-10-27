@@ -1,16 +1,12 @@
-package android.bignerdranch.criminalintent.database;
+package android.bignerdranch.mycheckins.database;
 
-import android.bignerdranch.criminalintent.CheckIn;
-import android.bignerdranch.criminalintent.CheckInLab;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import java.util.UUID;
-
 public class CheckInBaseHelper extends SQLiteOpenHelper {
     private static final int VERSION = 1;
-    private static final String DATABASE_NAME = "crimeBase.db";
+    private static final String DATABASE_NAME = "checkInBase.db";
 
     public CheckInBaseHelper(Context context) {
         super(context, DATABASE_NAME, null, VERSION);

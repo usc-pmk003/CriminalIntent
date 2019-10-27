@@ -1,5 +1,6 @@
-package android.bignerdranch.criminalintent;
+package android.bignerdranch.mycheckins;
 
+import android.bignerdranch.criminalintent.R;
 import android.os.Bundle;
 import android.widget.FrameLayout;
 

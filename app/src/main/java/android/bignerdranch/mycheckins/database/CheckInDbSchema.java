@@ -1,4 +1,4 @@
-package android.bignerdranch.criminalintent.database;
+package android.bignerdranch.mycheckins.database;
 
 public class CheckInDbSchema {
     public static final class CheckInTable {

@@ -1,8 +1,9 @@
-package android.bignerdranch.criminalintent;
+package android.bignerdranch.mycheckins;
 
 import android.Manifest;
 import android.app.Activity;
-import android.bignerdranch.criminalintent.database.CheckInBaseHelper;
+import android.bignerdranch.criminalintent.R;
+import android.bignerdranch.mycheckins.database.CheckInBaseHelper;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
@@ -44,7 +45,7 @@ import java.util.List;
 import java.util.UUID;
 
 public class CheckInFragment extends Fragment {
-    private static final String ARG_CRIME_ID = "crime_id";
+    private static final String ARG_CRIME_ID = "checkIn_id";
     private static final String DIALOG_DATE = "DialogDate";
 
     private static final int REQUEST_DATE = 0;
@@ -84,14 +85,14 @@ public class CheckInFragment extends Fragment {
     public void onPause() {
         super.onPause();
 
-        CheckInLab.get(getActivity()).updateCrime(mCheckIn);
+        CheckInLab.get(getActivity()).updateCheckIn(mCheckIn);
     }
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-        View v = inflater.inflate(R.layout.fragment_crime, container, false);
+        View v = inflater.inflate(R.layout.fragment_checkin, container, false);
 
         mTitleField = (EditText) v.findViewById(R.id.checkin_title);
         mTitleField.setText(mCheckIn.getTitle());
@@ -165,7 +166,7 @@ public class CheckInFragment extends Fragment {
             public void onClick(View v) {
                 Intent i = new Intent(Intent.ACTION_SEND);
                 i.setType("text/plain");
-                i.putExtra(Intent.EXTRA_TEXT, getCrimeReport());
+                i.putExtra(Intent.EXTRA_TEXT, getCheckInReport());
                 i.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.checkin_report_subject));
                 i = Intent.createChooser(i, getString(R.string.send_report));
                 startActivity(i);
@@ -279,9 +280,9 @@ public class CheckInFragment extends Fragment {
         }
     }
 
-    public static CheckInFragment newInstance(UUID crimeId) {
+    public static CheckInFragment newInstance(UUID checkInId) {
         Bundle args = new Bundle();
-        args.putSerializable(ARG_CRIME_ID, crimeId);
+        args.putSerializable(ARG_CRIME_ID, checkInId);
 
         CheckInFragment fragment = new CheckInFragment();
         fragment.setArguments(args);
@@ -292,7 +293,7 @@ public class CheckInFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         UUID checkInId = (UUID) getArguments().getSerializable(ARG_CRIME_ID);
-        mCheckIn = CheckInLab.get(getActivity()).getCrime(checkInId);
+        mCheckIn = CheckInLab.get(getActivity()).getCheckIn(checkInId);
         mPhotoFile = CheckInLab.get(getActivity()).getPhotoFile(mCheckIn);
 
         mClient = new GoogleApiClient.Builder(getActivity()).addApi(LocationServices.API).addConnectionCallbacks(new GoogleApiClient.ConnectionCallbacks() {
@@ -338,7 +339,7 @@ public class CheckInFragment extends Fragment {
         mLocationLabel.setText(locationUpdate);
     }
 
-    private String getCrimeReport() {
+    private String getCheckInReport() {
         String introduction = "Hello";
 
         String dateFormat = "EEE, MMM dd";

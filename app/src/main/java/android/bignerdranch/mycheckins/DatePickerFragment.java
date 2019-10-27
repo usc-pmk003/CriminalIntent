@@ -1,9 +1,10 @@
-package android.bignerdranch.criminalintent;
+package android.bignerdranch.mycheckins;
 
 
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.bignerdranch.criminalintent.R;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;

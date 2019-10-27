@@ -1,4 +1,4 @@
-package android.bignerdranch.criminalintent;
+package android.bignerdranch.mycheckins;
 
 import android.app.Activity;
 import android.graphics.Bitmap;

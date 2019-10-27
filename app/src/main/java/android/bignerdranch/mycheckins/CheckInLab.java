@@ -1,9 +1,8 @@
-package android.bignerdranch.criminalintent;
+package android.bignerdranch.mycheckins;
 
-import android.bignerdranch.criminalintent.database.CheckInBaseHelper;
-import android.bignerdranch.criminalintent.database.CheckInCursorWrapper;
-import android.bignerdranch.criminalintent.database.CheckInDbSchema;
-import android.bignerdranch.criminalintent.database.CheckInDbSchema.CheckInTable;
+import android.bignerdranch.mycheckins.database.CheckInBaseHelper;
+import android.bignerdranch.mycheckins.database.CheckInCursorWrapper;
+import android.bignerdranch.mycheckins.database.CheckInDbSchema;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -33,22 +32,22 @@ public class CheckInLab {
         mDatabase = new CheckInBaseHelper(mContext).getWritableDatabase();
     }
 
-    public void addCrime(CheckIn c) {
+    public void addCheckIn(CheckIn c) {
         ContentValues values = getContentValues(c);
 
         mDatabase.insert(CheckInDbSchema.CheckInTable.NAME, null, values);
     }
 
     public void deleteCheckIn(UUID id) {
-        mDatabase.delete(CheckInTable.NAME
-                , CheckInTable.Cols.UUID + " = ?"
+        mDatabase.delete(CheckInDbSchema.CheckInTable.NAME
+                , CheckInDbSchema.CheckInTable.Cols.UUID + " = ?"
                 , new String[] {id.toString()});
     }
 
-    public List<CheckIn>getCrimes() {
+    public List<CheckIn> getCheckIns() {
         List<CheckIn> checkIns = new ArrayList<>();
 
-        CheckInCursorWrapper cursor = queryCrimes(null, null);
+        CheckInCursorWrapper cursor = queryCheckIns(null, null);
 
         try {
             cursor.moveToFirst();
@@ -62,9 +61,9 @@ public class CheckInLab {
             return checkIns;
         }
 
-    public CheckIn getCrime(UUID id) {
+    public CheckIn getCheckIn(UUID id) {
 
-        CheckInCursorWrapper cursor = queryCrimes(CheckInDbSchema.CheckInTable.Cols.UUID + " = ?",
+        CheckInCursorWrapper cursor = queryCheckIns(CheckInDbSchema.CheckInTable.Cols.UUID + " = ?",
                 new String[] { id.toString() }
         );
 
@@ -85,7 +84,7 @@ public class CheckInLab {
         return new File(filesDir, checkIn.getPhotoFilename());
     }
 
-    public void updateCrime(CheckIn checkIn) {
+    public void updateCheckIn(CheckIn checkIn) {
         String uuidString = checkIn.getId().toString();
         ContentValues values = getContentValues(checkIn);
 
@@ -94,7 +93,7 @@ public class CheckInLab {
                 new String[] { uuidString });
     }
 
-    private CheckInCursorWrapper queryCrimes(String whereClause, String[] whereArgs) {
+    private CheckInCursorWrapper queryCheckIns(String whereClause, String[] whereArgs) {
         Cursor cursor = mDatabase.query(CheckInDbSchema.CheckInTable.NAME,
                 null, // columns - null selects all columns
                 whereClause,

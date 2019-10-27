@@ -1,7 +1,7 @@
-package android.bignerdranch.criminalintent.database;
+package android.bignerdranch.mycheckins.database;
 
-import android.bignerdranch.criminalintent.CheckIn;
-import android.bignerdranch.criminalintent.database.CheckInDbSchema.CheckInTable;
+import android.bignerdranch.mycheckins.CheckIn;
+import android.bignerdranch.mycheckins.database.CheckInDbSchema.CheckInTable;
 import android.database.Cursor;
 import android.database.CursorWrapper;
 

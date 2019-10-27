@@ -39,10 +39,10 @@ public class CheckInLab {
         mDatabase.insert(CheckInDbSchema.CheckInTable.NAME, null, values);
     }
 
-    public void deleteCheckIn(CheckIn checkIn) {
+    public void deleteCheckIn(UUID id) {
         mDatabase.delete(CheckInTable.NAME
                 , CheckInTable.Cols.UUID + " = ?"
-                , new String[] {checkIn.getId().toString()});
+                , new String[] {id.toString()});
     }
 
     public List<CheckIn>getCrimes() {

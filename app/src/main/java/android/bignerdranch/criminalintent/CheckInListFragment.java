@@ -95,6 +95,12 @@ public class CheckInListFragment extends Fragment {
                 updateSubtitle();
                 return true;
 
+            case R.id.help:
+                // Add the rest
+                Intent helpActivity = new Intent(getActivity(), WebViewActivity.class);
+                startActivity(helpActivity);
+                return true;
+
             default:
                 return super.onOptionsItemSelected(item);
         }

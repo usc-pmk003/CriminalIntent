@@ -197,7 +197,7 @@ public class CheckInFragment extends Fragment {
         mDeleteButton = (Button) v.findViewById(R.id.delete_button);
         mDeleteButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                CheckInLab.get(getActivity()).deleteCheckIn(mCheckIn);
+                CheckInLab.get(getActivity()).deleteCheckIn(mCheckIn.getId());
                 getActivity().finish();
             }
         });

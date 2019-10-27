@@ -23,9 +23,6 @@ public class CheckInListFragment extends Fragment {
 
     private static final String SAVED_SUBTITLE_VISIBLE = "subtitle";
 
-
-    private TextView mDetailsTextView;
-
     private RecyclerView mCheckInRecyclerView;
     private CheckInAdapter mAdapter;
     private boolean mSubtitleVisible;

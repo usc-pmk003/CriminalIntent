@@ -54,19 +54,18 @@ public class CheckInFragment extends Fragment {
 
     private CheckIn mCheckIn;
     private File mPhotoFile;
+
     private EditText mTitleField;
     private EditText mPlaceField;
     private EditText mDetailsField;
     private TextView mLocationLabel;
     private Button mLocationButton;
     private Button mDateButton;
-    private Button mSuspectButton;
-    private Button mReportButton;
+    private Button mShareButton;
     private Button mDeleteButton;
     private ImageButton mPhotoButton;
     private ImageView mPhotoView;
 
-    private CheckInBaseHelper dbHelper;
     private GoogleApiClient mClient;
 
     @Override
@@ -161,8 +160,8 @@ public class CheckInFragment extends Fragment {
             }
         });
 
-        mReportButton = (Button) v.findViewById(R.id.share_button);
-        mReportButton.setOnClickListener(new View.OnClickListener() {
+        mShareButton = (Button) v.findViewById(R.id.share_button);
+        mShareButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Intent i = new Intent(Intent.ACTION_SEND);
                 i.setType("text/plain");
@@ -174,7 +173,7 @@ public class CheckInFragment extends Fragment {
         });
 
         if (mCheckIn.getSuspect() != null) {
-            mSuspectButton.setText(mCheckIn.getSuspect());
+            mShareButton.setText(mCheckIn.getSuspect());
         }
 
         PackageManager packageManager = getActivity().getPackageManager();
@@ -266,7 +265,7 @@ public class CheckInFragment extends Fragment {
                 c.moveToFirst();
                 String suspect = c.getString(0);
                 mCheckIn.setSuspect(suspect);
-                mSuspectButton.setText(suspect);
+                mShareButton.setText(suspect);
             } finally {
                 c.close();
             }
